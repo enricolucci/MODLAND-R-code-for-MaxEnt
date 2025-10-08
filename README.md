@@ -1,8 +1,6 @@
 # ModLand — MaxEnt modelling
 
-A clear, single‑file **R Markdown** workflow for MaxEnt modelling of archaeological presence‑only data.
-It follows the original ModLand code closely, with only small practical changes:
-
+R Markdown workflow for MaxEnt modelling of archaeological presence‑only data.
 
 ## Data layout
 ```
