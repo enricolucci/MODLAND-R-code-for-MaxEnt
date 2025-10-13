@@ -48,7 +48,6 @@ library(ggplot2)   # quick visualisation
 # 2) Inputs & paths (parameterised)
 
 ```{r}
-# Resolve paths from YAML params
 dir_data    <- params$data_dir
 dir_rasters <- file.path(dir_data, params$rasters_subdir)
 path_shape  <- file.path(dir_data, params$study_shp)
@@ -95,7 +94,7 @@ env <- terra::mask(env, terra::vect(study_proj))
 env
 ```
 
-*Caption:* *All rasters are stacked and aligned to the study polygon. Replace EPSG as needed via parameters.*
+*Caption:* *All rasters are stacked and aligned to the study polygon.*
 
 ---
 
@@ -109,7 +108,7 @@ if (nrow(pts_in) < 10) warning("Few presence points after clipping; check inputs
 
 # Extract environmental values at presence points
 p_env <- terra::extract(env, terra::vect(pts_in))
-p_env <- p_env[complete.cases(p_env), , drop = FALSE]
+p_env <- p_env[complete.cases(p_env), drop = FALSE]
 
 # Background points sampled randomly within valid env cells (NA removed)
 bg_pts <- terra::spatSample(env, size = params$bg_points, method = "random", as.points = TRUE, na.rm = TRUE)
