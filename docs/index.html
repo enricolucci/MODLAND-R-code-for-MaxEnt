@@ -3,102 +3,99 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>ModLand • Cactus-style</title>
+<title>ModLand • Archaeological Landscape Modelling</title>
 <meta name="description" content="ModLand resources for presence-only MaxEnt modelling in landscape archaeology." />
 <meta name="theme-color" content="#0a58ca" />
 <style>
   :root{
     --bg:#ffffff; --fg:#111; --muted:#555; --link:#0a58ca; --border:#e5e7eb;
-    --card:#fff; --accent:#08915a; /* cactus verde */
-    --wrap:760px; --radius:14px;
+    --card:#fff; --accent:#08915a;
   }
   [data-theme="dark"]{
     --bg:#0e0f12; --fg:#e8e8e8; --muted:#a9a9a9; --link:#6ba8ff; --border:#23262b; --card:#15171b;
     --accent:#28b07a;
   }
-  @media (prefers-color-scheme: dark){
-    :root{
-      --bg:#0e0f12; --fg:#e8e8e8; --muted:#a9a9a9; --link:#6ba8ff; --border:#23262b; --card:#15171b;
-      --accent:#28b07a;
-    }
+  html,body{
+    margin:0;padding:0;background:var(--bg);color:var(--fg);
+    font:16px/1.65 system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
+    scroll-behavior:smooth;
   }
-  html,body{margin:0;padding:0;background:var(--bg);color:var(--fg);font:16px/1.65 system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif}
   a{color:var(--link);text-decoration:none} a:hover{text-decoration:underline}
-  .wrap{max-width:var(--wrap);margin:0 auto;padding:0 1.25rem}
-  /* Navbar stile Cactus: sottile, sticky, logo a sx, nav a dx */
-  .nav{position:sticky;top:0;background:var(--bg);border-bottom:1px solid var(--border);z-index:10}
-  .nav-inner{height:56px;display:flex;align-items:center;justify-content:space-between}
-  .brand{font-weight:800;letter-spacing:.1px}
-  .nav a{margin-left:1rem;font-size:.95rem}
-  .theme-btn{border:1px solid var(--border);background:transparent;border-radius:999px;padding:.25rem .6rem;font-size:.9rem;cursor:pointer}
-  /* Hero/intro: titolo grande + strapline come nel demo */
-  .hero{padding:2.25rem 0 1rem;border-bottom:1px solid var(--border)}
+  .wrap{max-width:980px;margin:0 auto;padding:0 1.25rem}
+  /* NAVBAR */
+  .nav{
+    position:sticky;top:0;background:var(--bg);
+    border-bottom:1px solid var(--border);z-index:10;
+  }
+  .nav-inner{
+    display:flex;align-items:center;justify-content:space-between;
+    max-width:1100px;margin:0 auto;padding:0 1.5rem;gap:1rem;
+  }
+  .brand{font-weight:800;letter-spacing:0.3px}
+  nav[aria-label="Primary"]{
+    display:flex;align-items:center;justify-content:center;flex:1;text-align:center;
+  }
+  .nav a{margin:0 0.75rem;font-size:.95rem}
+  .theme-btn{
+    border:1px solid var(--border);background:transparent;border-radius:999px;
+    padding:.25rem .6rem;font-size:.9rem;cursor:pointer;margin-left:.5rem;
+  }
+  /* LOGO */
+  .logo-link{display:inline-flex;align-items:center;justify-content:flex-end;margin-left:auto}
+  .logo{height:36px;width:auto;border-radius:6px;transition:transform .2s ease}
+  .logo:hover{transform:scale(1.05)}
+  [data-theme="dark"] .logo{filter:brightness(0.9) contrast(1.1)}
+  /* HERO */
+  .hero{padding:2.25rem 0 1rem;border-bottom:1px solid var(--border);text-align:center}
   .kicker{color:var(--accent);font-weight:700;letter-spacing:.3px;font-size:.9rem}
   h1{margin:.25rem 0 .5rem;font-size:2.1rem;line-height:1.2}
-  .lead{color:var(--muted);max-width:60ch}
-  /* Sezioni strette e ariose */
+  .lead{color:var(--muted);max-width:60ch;margin:0 auto}
+  /* SECTIONS */
   section{padding:1.75rem 0}
-  h2{font-size:1.25rem;margin:0 0 .75rem}
+  h2{font-size:1.25rem;margin:0 0 .75rem;text-align:center}
   .grid{display:grid;gap:1rem;grid-template-columns:repeat(auto-fit,minmax(260px,1fr))}
-  .card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:1rem}
+  .card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:1rem}
   .small{font-size:.95rem}
   .mono{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,"Liberation Mono",monospace}
-  /* Post list / resources list con stile Cactus */
   .list{display:grid;gap:.75rem}
-  .item{display:block;border:1px solid var(--border);border-radius:var(--radius);padding:.9rem 1rem;background:var(--card)}
+  .item{display:block;border:1px solid var(--border);border-radius:14px;padding:.9rem 1rem;background:var(--card)}
   .item h3{margin:.2rem 0 .3rem;font-size:1.05rem}
   .meta{color:var(--muted);font-size:.9rem}
-  /* Footer minimale */
-  footer{border-top:1px solid var(--border);padding:1rem 0;color:var(--muted);margin-top:1.5rem}
-  /* Skip link */
+  footer{border-top:1px solid var(--border);padding:1rem 0;color:var(--muted);margin-top:1.5rem;text-align:center}
   .skip-link{position:absolute;left:-9999px}
   .skip-link:focus{position:static;padding:.5rem;border:1px solid var(--border);border-radius:.5rem;background:var(--card)}
-
-  /* LOGO in alto a destra */
-.logo-link {
-  display:inline-flex;
-  align-items:center;
-  margin-left:1rem;
-}
-.logo {
-  height:60px;
-  width:auto;
-  border-radius:6px;
-  transition:transform 0.2s ease;
-}
-.logo:hover {
-  transform:scale(1.05);
-}
-[data-theme="dark"] .logo {
-  filter:brightness(0.9) contrast(1.1);
-}
-
 </style>
 </head>
 <body>
 <a href="#content" class="skip-link">Skip to content</a>
 
 <!-- NAV -->
-<div class="brand">ModLand</div>
-<nav aria-label="Primary">
-  <a href="#about">About</a>
-  <a href="#resources">Resources</a>
-  <a href="#dataset">Dataset</a>
-  <a href="#reuse">How to reuse</a>
-  <button class="theme-btn" id="themeToggle" aria-label="Toggle theme"> ☾ </button>
-  <a href="https://enricolucci.github.io/MODLAND/" class="logo-link" title="ModLand home">
-    <img src="logo.png" alt="ModLand logo" class="logo" />
-  </a>
-</nav>
+<div class="nav">
+  <div class="nav-inner">
+    <div class="brand">ModLand</div>
+
+    <nav aria-label="Primary">
+      <a href="#about">About</a>
+      <a href="#resources">Resources</a>
+      <a href="#dataset">Dataset</a>
+      <a href="#reuse">How to reuse</a>
+      <button class="theme-btn" id="themeToggle" aria-label="Toggle theme">☾</button>
+    </nav>
+
+    <a href="https://enricolucci.github.io/MODLAND/" class="logo-link" title="ModLand home">
+      <img src="logo.png" alt="ModLand logo" class="logo" />
+    </a>
   </div>
 </div>
 
-<!-- HERO / INTRO -->
+<!-- HERO -->
 <header class="hero">
   <div class="wrap">
     <div class="kicker">Young Researcher Seal of Excellence 2022</div>
-    <h1>Archaeological landscape modelling with MaxEnt — open resources</h1>
-    <p class="lead">Reusable R Markdown, a minimal workflow, and direct access to the project webmap and spatial dataset. </p>
+    <h1>Archaeological Landscape Modelling with MaxEnt</h1>
+    <p class="lead">
+      Open resources for presence-only modelling, R Markdown template, and direct access to the ModLand webmap and spatial dataset.
+    </p>
   </div>
 </header>
 
@@ -106,10 +103,13 @@
   <!-- ABOUT -->
   <section id="about">
     <h2>About</h2>
-    <p class="small">A compact, presence-only MaxEnt workflow used in the ModLand project. Provide a study area, presence table, and GeoTIFF predictors; the script returns a suitability raster and a quick map.</p>
+    <p class="small" style="text-align:center;max-width:65ch;margin:0 auto;">
+      ModLand explores the interaction between prehistoric communities and their environments through ecological modelling approaches.
+      This site shares open resources and code for MaxEnt-based landscape analysis.
+    </p>
   </section>
 
-  <!-- HIGHLIGHT / FEATURED (stile “post list”) -->
+  <!-- RESOURCES -->
   <section id="resources">
     <h2>Resources</h2>
     <div class="list">
@@ -173,25 +173,17 @@
 </main>
 
 <footer>
-  <div class="wrap small">© <span id="y"></span> · ModLand · Cactus-style static</div>
+  © <span id="y"></span> · ModLand · Cactus-style static
 </footer>
 
 <script>
-  // Year
   document.getElementById('y').textContent = new Date().getFullYear();
-
-  // Dark-mode toggle inspired by Astro Cactus: salva preferenza in localStorage
-  const KEY = 'theme';
-  const btn = document.getElementById('themeToggle');
-  const getPref = () => localStorage.getItem(KEY) || (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
-  const apply = (t) => document.documentElement.setAttribute('data-theme', t);
-  let current = getPref(); apply(current);
-  btn.addEventListener('click', () => {
-    current = (current === 'dark') ? 'light' : 'dark';
-    localStorage.setItem(KEY, current); apply(current);
-  });
+  const KEY='theme';const btn=document.getElementById('themeToggle');
+  const getPref=()=>localStorage.getItem(KEY)||(matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light');
+  const apply=(t)=>document.documentElement.setAttribute('data-theme',t);
+  let current=getPref();apply(current);
+  btn.addEventListener('click',()=>{current=(current==='dark')?'light':'dark';localStorage.setItem(KEY,current);apply(current);});
 </script>
 </body>
 </html>
-
 
