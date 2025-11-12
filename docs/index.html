@@ -1,197 +1,177 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>ModLand Project</title>
-  <meta name="description" content="Open resources for presence-only MaxEnt modelling in landscape archaeology: R Markdown, webmap, and spatial datasets." />
-  <meta name="theme-color" content="#0a58ca" />
-  <style>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>ModLand • Cactus-style</title>
+<meta name="description" content="ModLand resources for presence-only MaxEnt modelling in landscape archaeology." />
+<meta name="theme-color" content="#0a58ca" />
+<style>
   :root{
-    --fg:#111;
-    --muted:#555;
-    --bg:#fff;
-    --card:#fff;
-    --border:#e5e7eb;
-    --link:#0a58ca;
-    --s1:#f8f9f8;   /* very light grey-green */
-    --s2:#eef3ef;   /* soft light green */
-    --s3:#f5f5f5;   /* neutral light grey */
-    --s4:#e9f2ea;   /* pale sage */
+    --bg:#ffffff; --fg:#111; --muted:#555; --link:#0a58ca; --border:#e5e7eb;
+    --card:#fff; --accent:#08915a; /* cactus verde */
+    --wrap:760px; --radius:14px;
+  }
+  [data-theme="dark"]{
+    --bg:#0e0f12; --fg:#e8e8e8; --muted:#a9a9a9; --link:#6ba8ff; --border:#23262b; --card:#15171b;
+    --accent:#28b07a;
   }
   @media (prefers-color-scheme: dark){
     :root{
-      --fg:#e8e8e8;
-      --muted:#a9a9a9;
-      --bg:#0e0f12;
-      --card:#15171b;
-      --border:#23262b;
-      --link:#6ba8ff;
-      --s1:#141615;
-      --s2:#192019;
-      --s3:#111;
-      --s4:#162016;
+      --bg:#0e0f12; --fg:#e8e8e8; --muted:#a9a9a9; --link:#6ba8ff; --border:#23262b; --card:#15171b;
+      --accent:#28b07a;
     }
   }
-
-  html,body{margin:0;padding:0;background:var(--bg);color:var(--fg);
-    font:16px/1.6 system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
-    scroll-behavior:smooth}
-  a{color:var(--link);text-decoration:none}
-  a:hover{text-decoration:underline}
-  .wrap{max-width:980px;margin:0 auto;padding:0 1.25rem}
-
-  /* NAVBAR */
+  html,body{margin:0;padding:0;background:var(--bg);color:var(--fg);font:16px/1.65 system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif}
+  a{color:var(--link);text-decoration:none} a:hover{text-decoration:underline}
+  .wrap{max-width:var(--wrap);margin:0 auto;padding:0 1.25rem}
+  /* Navbar stile Cactus: sottile, sticky, logo a sx, nav a dx */
   .nav{position:sticky;top:0;background:var(--bg);border-bottom:1px solid var(--border);z-index:10}
-  .nav-inner{display:flex;align-items:center;justify-content:space-between;height:56px}
-  .brand{font-weight:700}
+  .nav-inner{height:56px;display:flex;align-items:center;justify-content:space-between}
+  .brand{font-weight:800;letter-spacing:.1px}
   .nav a{margin-left:1rem;font-size:.95rem}
-
-  /* HERO */
-  .hero{padding:3rem 0 1.5rem;border-bottom:1px solid var(--border);background:var(--s1)}
-  .hero h1{margin:.25rem 0 0;font-size:2rem}
-  .hero p{margin:.5rem 0 0;color:var(--muted)}
-  .badges{margin-top:1rem;display:flex;flex-wrap:wrap;gap:.5rem}
-  .badge{border:1px solid var(--border);border-radius:999px;padding:.35rem .75rem;font-size:.9rem}
-
-  /* SECTIONS */
-  section{padding:2.25rem 0}
-  #about{background:var(--s2)}
-  #resources{background:var(--s3)}
-  #reuse{background:var(--s4)}
-  #dataset{background:var(--s2)}
-  h2{font-size:1.35rem;margin:0 0 .75rem}
-  h3{font-size:1.05rem;margin:.25rem 0}
+  .theme-btn{border:1px solid var(--border);background:transparent;border-radius:999px;padding:.25rem .6rem;font-size:.9rem;cursor:pointer}
+  /* Hero/intro: titolo grande + strapline come nel demo */
+  .hero{padding:2.25rem 0 1rem;border-bottom:1px solid var(--border)}
+  .kicker{color:var(--accent);font-weight:700;letter-spacing:.3px;font-size:.9rem}
+  h1{margin:.25rem 0 .5rem;font-size:2.1rem;line-height:1.2}
+  .lead{color:var(--muted);max-width:60ch}
+  /* Sezioni strette e ariose */
+  section{padding:1.75rem 0}
+  h2{font-size:1.25rem;margin:0 0 .75rem}
   .grid{display:grid;gap:1rem;grid-template-columns:repeat(auto-fit,minmax(260px,1fr))}
-  .card{border:1px solid var(--border);border-radius:12px;background:var(--card);padding:1rem}
-  .mono{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,"Liberation Mono",monospace}
+  .card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:1rem}
   .small{font-size:.95rem}
-  .note{border:1px solid var(--border);border-radius:10px;padding:.75rem}
-
-  /* FOOTER */
-  footer{border-top:1px solid var(--border);padding:1rem 0;color:var(--muted);background:var(--s3)}
-
-  /* SKIP LINK */
+  .mono{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,"Liberation Mono",monospace}
+  /* Post list / resources list con stile Cactus */
+  .list{display:grid;gap:.75rem}
+  .item{display:block;border:1px solid var(--border);border-radius:var(--radius);padding:.9rem 1rem;background:var(--card)}
+  .item h3{margin:.2rem 0 .3rem;font-size:1.05rem}
+  .meta{color:var(--muted);font-size:.9rem}
+  /* Footer minimale */
+  footer{border-top:1px solid var(--border);padding:1rem 0;color:var(--muted);margin-top:1.5rem}
+  /* Skip link */
   .skip-link{position:absolute;left:-9999px}
   .skip-link:focus{position:static;padding:.5rem;border:1px solid var(--border);border-radius:.5rem;background:var(--card)}
 </style>
 </head>
 <body>
-  <a href="#content" class="skip-link">Skip to content</a>
-  <!-- NAVBAR -->
-  <div class="nav">
-    <div class="wrap nav-inner">
-      <div class="brand">ModLand Project</div>
-      <nav aria-label="Primary">
-        <a href="#about">About</a>
-        <a href="#resources">Resources</a>
-        <a href="#reuse">How to reuse</a>
-        <a href="#dataset">Dataset</a>
-      </nav>
-    </div>
+<a href="#content" class="skip-link">Skip to content</a>
+
+<!-- NAV -->
+<div class="brand">ModLand</div>
+<nav aria-label="Primary">
+  <a href="#about">About</a>
+  <a href="#resources">Resources</a>
+  <a href="#dataset">Dataset</a>
+  <a href="#reuse">How to reuse</a>
+  <button class="theme-btn" id="themeToggle" aria-label="Toggle theme">☾</button>
+  <a href="https://enricolucci.github.io/MODLAND/" class="logo-link" title="ModLand home">
+    <img src="logo.png" alt="ModLand logo" class="logo" />
+  </a>
+</nav>
   </div>
+</div>
 
-  <!-- HERO -->
-  <header class="hero">
-    <div class="wrap">
-      <p class="small muted">Young Researcher Seal of Excellence 2022</p>
-      <h1>ModLand: open resources for MaxEnt modelling</h1>
-      <p class="small">Reusable R Markdown, minimal workflow, and links to the project’s webmap and spatial dataset.</p>
-      <div class="badges">
-        <span class="badge">R • terra • sf • dismo • maxnet • ggplot2</span>
-        <span class="badge">Author: Enrico Lucci — <a href="mailto:enrico.lucci@uniba.it">enrico.lucci@uniba.it</a></span>
-      </div>
+<!-- HERO / INTRO -->
+<header class="hero">
+  <div class="wrap">
+    <div class="kicker">Young Researcher Seal of Excellence 2022</div>
+    <h1>Archaeological landscape modelling with MaxEnt — open resources</h1>
+    <p class="lead">Reusable R Markdown, a minimal workflow, and direct access to the project webmap and spatial dataset. UK English copy and clean, accessible markup inspired by Astro Cactus.</p>
+  </div>
+</header>
+
+<main id="content" class="wrap" role="main">
+  <!-- ABOUT -->
+  <section id="about">
+    <h2>About</h2>
+    <p class="small">A compact, presence-only MaxEnt workflow used in the ModLand project. Provide a study area, presence table, and GeoTIFF predictors; the script returns a suitability raster and a quick map.</p>
+  </section>
+
+  <!-- HIGHLIGHT / FEATURED (stile “post list”) -->
+  <section id="resources">
+    <h2>Resources</h2>
+    <div class="list">
+      <a class="item" href="https://github.com/enricolucci/MODLAND-R-code-for-MaxEnt/blob/main/MaxEnt_workflow_generic.Rmd" target="_blank" rel="noopener noreferrer">
+        <h3>R Markdown template</h3>
+        <div class="meta">View on GitHub · <span class="mono">MaxEnt_workflow_generic.Rmd</span></div>
+      </a>
+      <a class="item" href="https://raw.githubusercontent.com/enricolucci/MODLAND-R-code-for-MaxEnt/main/MaxEnt_workflow_generic.Rmd" target="_blank" rel="noopener noreferrer" download>
+        <h3>Download raw Rmd</h3>
+        <div class="meta">Direct download · <span class="mono">.Rmd</span></div>
+      </a>
+      <a class="item" href="https://github.com/enricolucci/MODLAND-R-code-for-MaxEnt" target="_blank" rel="noopener noreferrer">
+        <h3>Code repository</h3>
+        <div class="meta">Open repository · GitHub</div>
+      </a>
+      <a class="item" href="https://enricolucci.github.io/MODLANDwebmap/" target="_blank" rel="noopener noreferrer">
+        <h3>Explore the webmap</h3>
+        <div class="meta">Interactive viewer · 🌍</div>
+      </a>
+      <a class="item" href="https://modlandarchaeologicalproject.wordpress.com/" target="_blank" rel="noopener noreferrer">
+        <h3>Project website</h3>
+        <div class="meta">Background, team, and updates</div>
+      </a>
     </div>
-  </header>
+  </section>
 
-  <main id="content" class="wrap" role="main">
-    <!-- ABOUT -->
-    <section id="about" aria-labelledby="about-h">
-      <h2 id="about-h">About</h2>
-      <p class="small">
-        A compact, presence-only MaxEnt workflow used in the ModLand project. The template assumes a study area, a presence table, and any number of GeoTIFF predictors.
-        Outputs include a suitability raster and a quick-map preview.
-      </p>
-    </section>
+  <!-- DATASET -->
+  <section id="dataset">
+    <h2>Spatial dataset (Zenodo)</h2>
+    <div class="grid">
+      <article class="card small">
+        <p><strong>Zenodo record</strong><br>
+          <a class="mono" href="https://zenodo.org/records/17292750" target="_blank" rel="noopener noreferrer">zenodo.org/records/17292750</a>
+        </p>
+        <p class="meta">Cite this record when using the data.</p>
+      </article>
+      <article class="card small">
+        <p><strong>Licence &amp; citation</strong><br>
+          Code released under a research-friendly licence (e.g., GPL-3.0). Please cite this repository and related publications.</p>
+      </article>
+    </div>
+  </section>
 
-    <!-- RESOURCES -->
-    <section id="resources" aria-labelledby="resources-h">
-      <h2 id="resources-h">Resources</h2>
-      <div class="grid">
-        <article class="card">
-          <h3>R Markdown template</h3>
-          <p>Generic, parameterised file for quick reuse.</p>
-          <p class="small">
-            <a class="mono" href="https://github.com/enricolucci/MODLAND-R-code-for-MaxEnt/blob/main/MaxEnt_workflow_generic.Rmd" target="_blank" rel="noopener noreferrer">View on GitHub</a><br>
-            <a class="mono" href="https://raw.githubusercontent.com/enricolucci/MODLAND-R-code-for-MaxEnt/main/MaxEnt_workflow_generic.Rmd" target="_blank" rel="noopener noreferrer" download>Download raw</a>
-          </p>
-        </article>
-
-        <article class="card">
-          <h3>Code repository</h3>
-          <p class="small">
-            <a class="mono" href="https://github.com/enricolucci/MODLAND-R-code-for-MaxEnt" target="_blank" rel="noopener noreferrer">Open repository</a>
-          </p>
-        </article>
-
-        <article class="card">
-          <h3>MODLAND webmap</h3>
-          <p class="small">
-            <a class="mono" href="https://enricolucci.github.io/MODLANDwebmap/" target="_blank" rel="noopener noreferrer">🌍 Explore the webmap</a>
-          </p>
-        </article>
-
-        <article class="card">
-          <h3>Project site</h3>
-          <p class="small">
-            <a class="mono" href="https://modlandarchaeologicalproject.wordpress.com/" target="_blank" rel="noopener noreferrer">🏛️ Project website</a>
-          </p>
-        </article>
-
-        <article class="card">
-          <h3>Spatial dataset (Zenodo)</h3>
-          <p class="small">
-            <a class="mono" href="https://zenodo.org/records/17292750" target="_blank" rel="noopener noreferrer">🗃️ Zenodo record</a>
-          </p>
-        </article>
-      </div>
-    </section>
-
-    <!-- HOW TO REUSE -->
-    <section id="reuse" aria-labelledby="reuse-h">
-      <h2 id="reuse-h">How to reuse</h2>
-      <div class="card small note" role="note">
-        Keep rasters aligned (CRS, resolution, extent). Document the EPSG in the YAML before running.
-      </div>
-      <div class="card small" style="margin-top:1rem">
+  <!-- HOW TO REUSE -->
+  <section id="reuse">
+    <h2>How to reuse</h2>
+    <div class="grid">
+      <article class="card small">
         <ol>
           <li>Place <span class="mono">study_area.shp</span> (+ sidecars) and <span class="mono">presence.csv</span> in <span class="mono">/data</span>.</li>
-          <li>Add GeoTIFFs to <span class="mono">/data/rasters</span> (any number, any names).</li>
-          <li>Adjust YAML parameters (EPSG, background size, output names) and knit the Rmd locally.</li>
-          <li>Find outputs in <span class="mono">/outputs</span> (suitability raster and quick map).</li>
+          <li>Add GeoTIFFs to <span class="mono">/data/rasters</span>.</li>
+          <li>Adjust YAML parameters (EPSG, background size, output names) and knit locally.</li>
+          <li>Outputs saved to <span class="mono">/outputs</span> (suitability raster and quick map).</li>
         </ol>
-      </div>
-    </section>
-
-    <!-- DATASET -->
-    <section id="dataset" aria-labelledby="dataset-h">
-      <h2 id="dataset-h">Licence &amp; citation</h2>
-      <p class="small">
-        Code released under a research-friendly licence (e.g., GPL-3.0). Please cite the repository and related publications.  
-        If you use the spatial dataset, cite the Zenodo record above.
-      </p>
-    </section>
-  </main>
-
-  <footer>
-    <div class="wrap small">
-      © <span id="y"></span> · ModLand • Clean HTML/CSS
+      </article>
+      <article class="card small">
+        <p><strong>Tip</strong>: keep rasters aligned (CRS, resolution, extent) and document the EPSG in the YAML to avoid resampling artefacts.</p>
+      </article>
     </div>
-  </footer>
+  </section>
+</main>
 
-  <script>
-    document.getElementById('y').textContent = new Date().getFullYear();
-  </script>
+<footer>
+  <div class="wrap small">© <span id="y"></span> · ModLand · Cactus-style static</div>
+</footer>
+
+<script>
+  // Year
+  document.getElementById('y').textContent = new Date().getFullYear();
+
+  // Dark-mode toggle inspired by Astro Cactus: salva preferenza in localStorage
+  const KEY = 'theme';
+  const btn = document.getElementById('themeToggle');
+  const getPref = () => localStorage.getItem(KEY) || (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+  const apply = (t) => document.documentElement.setAttribute('data-theme', t);
+  let current = getPref(); apply(current);
+  btn.addEventListener('click', () => {
+    current = (current === 'dark') ? 'light' : 'dark';
+    localStorage.setItem(KEY, current); apply(current);
+  });
+</script>
 </body>
 </html>
+
 
