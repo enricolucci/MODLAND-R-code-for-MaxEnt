@@ -53,6 +53,26 @@
   /* Skip link */
   .skip-link{position:absolute;left:-9999px}
   .skip-link:focus{position:static;padding:.5rem;border:1px solid var(--border);border-radius:.5rem;background:var(--card)}
+
+  /* LOGO in alto a destra */
+.logo-link {
+  display:inline-flex;
+  align-items:center;
+  margin-left:1rem;
+}
+.logo {
+  height:32px;
+  width:auto;
+  border-radius:6px;
+  transition:transform 0.2s ease;
+}
+.logo:hover {
+  transform:scale(1.05);
+}
+[data-theme="dark"] .logo {
+  filter:brightness(0.9) contrast(1.1);
+}
+
 </style>
 </head>
 <body>
@@ -65,7 +85,7 @@
   <a href="#resources">Resources</a>
   <a href="#dataset">Dataset</a>
   <a href="#reuse">How to reuse</a>
-  <button class="theme-btn" id="themeToggle" aria-label="Toggle theme">☾</button>
+  <button class="theme-btn" id="themeToggle" aria-label="Toggle theme"> ☾ </button>
   <a href="https://enricolucci.github.io/MODLAND/" class="logo-link" title="ModLand home">
     <img src="logo.png" alt="ModLand logo" class="logo" />
   </a>
